@@ -1,104 +1,836 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>드레스덴(Dresden) | 가족 힐링 스테이</title>
-    <style>
-        /* 드레스덴 컨셉 컬러: 따뜻한 베이지 & 숲의 녹색 */
-        :root { 
-            --primary-green: #3e563f; 
-            --warm-beige: #f5f2ed;
-            --accent-gold: #c5a059;
-            --text-main: #2d2d2d; 
-        }
-        
-        body { font-family: 'Pretendard', -apple-system, sans-serif; margin: 0; line-height: 1.7; color: var(--text-main); background-color: #fff; }
-        
-        /* 상단 바 */
-        header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 25px 8%; background: white; border-bottom: 1px solid #eee;
-            position: sticky; top: 0; z-index: 1000;
-        }
-        .logo { font-size: 1.8rem; font-weight: 800; color: var(--primary-green); letter-spacing: 2px; }
-        nav a { margin-left: 25px; text-decoration: none; color: #666; font-size: 1rem; transition: 0.3s; }
-        nav a:hover { color: var(--accent-gold); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>드레스덴 DRESDEN | 남해 독일마을 오션뷰 스테이</title>
+  <meta name="description" content="남해 독일마을, 바다를 내려다보는 작은 집. 드레스덴 펜션의 젬퍼·엘베 두 객실에서 가족과 함께 머무르세요.">
+  <meta property="og:title" content="드레스덴 DRESDEN | 남해 독일마을 스테이">
+  <meta property="og:description" content="바다를 내려다보는 빨간 지붕의 작은 집">
+  <meta property="og:image" content="main.jpg">
+  <meta name="theme-color" content="#f3eee5">
 
-        /* 메인 배너 - '드레스덴'의 감성 */
-        .hero { 
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                        url('main.jpg'); 
-            height: 70vh; background-size: cover; background-position: center;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center;
-        }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 5px; font-weight: 300; }
-        .hero p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 30px; }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 
-        /* 네이버 예약 버튼 */
-        .btn-naver { 
-            background-color: #03c75a; color: white; padding: 16px 45px; border-radius: 2px; 
-            text-decoration: none; font-weight: bold; transition: 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .btn-naver:hover { background-color: #02b350; transform: translateY(-3px); }
+  <style>
+    :root {
+      --paper: #f3eee5;
+      --paper-deep: #e9e1d3;
+      --ink: #1d2420;
+      --ink-soft: #5b5f58;
+      --line: rgba(29, 36, 32, 0.14);
+      --terracotta: #b5532e;
+      --terracotta-deep: #8f3e20;
+      --sea: #6f8a98;
+      --forest: #2f3d33;
+      --naver: #03c75a;
 
-        /* 섹션 공통 스타일 */
-        .section { padding: 100px 10%; text-align: center; }
-        .section h2 { font-size: 2.2rem; margin-bottom: 15px; color: var(--primary-green); }
-        .underline { width: 50px; height: 2px; background: var(--accent-gold); margin: 0 auto 40px; }
+      --serif-en: 'Cormorant Garamond', 'Noto Serif KR', serif;
+      --serif-ko: 'Noto Serif KR', serif;
+      --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
 
-        /* 객실 카드 */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-        .room-card { transition: 0.3s; cursor: pointer; text-align: left; }
-        .room-card:hover { transform: translateY(-10px); }
-        .room-img { width: 100%; height: 250px; object-fit: cover; border-radius: 5px; }
-        .room-info h3 { margin: 15px 0 5px; font-size: 1.4rem; }
-        .room-info p { color: #888; font-size: 0.95rem; }
+      --gutter: clamp(20px, 5vw, 72px);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
 
-        footer { background: var(--warm-beige); padding: 60px 10%; border-top: 1px solid #e0ddd7; color: #777; font-size: 0.9rem; }
-    </style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.75;
+      letter-spacing: -0.01em;
+      word-break: keep-all;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* 종이 질감 */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 999;
+      opacity: 0.06;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- 헤더 ---------- */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px var(--gutter);
+      transition: background 0.5s var(--ease), padding 0.5s var(--ease), color 0.5s var(--ease);
+      color: var(--ink);
+    }
+    .header.scrolled {
+      background: rgba(243, 238, 229, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding-top: 14px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      font-family: var(--serif-en);
+      font-size: 1.5rem;
+      letter-spacing: 0.34em;
+      font-weight: 500;
+    }
+    .nav { display: flex; align-items: center; gap: 36px; }
+    .nav a {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      position: relative;
+    }
+    .nav a:not(.nav-book)::after {
+      content: ""; position: absolute; left: 0; bottom: -4px;
+      width: 100%; height: 1px; background: currentColor;
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.5s var(--ease);
+    }
+    .nav a:not(.nav-book):hover::after { transform: scaleX(1); transform-origin: left; }
+    .nav-book {
+      padding: 10px 20px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-book:hover { background: var(--ink); color: var(--paper); }
+    .menu-btn { display: none; background: none; border: 0; padding: 8px; cursor: pointer; color: inherit; }
+    .menu-btn span { display: block; width: 26px; height: 1.5px; background: currentColor; margin: 6px 0; transition: transform 0.4s var(--ease), opacity 0.3s; }
+
+    /* ---------- 히어로 ---------- */
+    .hero {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: stretch;
+    }
+    .hero-text {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 140px var(--gutter) 80px;
+      position: relative;
+    }
+    .hero-title {
+      font-family: var(--serif-en);
+      font-weight: 400;
+      font-size: clamp(4rem, 11vw, 10.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      margin: 26px 0 36px;
+    }
+    .hero-title em { font-style: italic; color: var(--terracotta); }
+    .hero-sub {
+      font-family: var(--serif-ko);
+      font-weight: 300;
+      font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+      line-height: 1.8;
+      max-width: 26em;
+      margin: 0 0 44px;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 17px 30px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: transform 0.4s var(--ease), background 0.3s, color 0.3s, box-shadow 0.4s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--ink); color: var(--paper); }
+    .btn-primary:hover { background: var(--terracotta); box-shadow: 0 14px 30px -12px rgba(181, 83, 46, 0.6); }
+    .btn-ghost { border: 1px solid var(--line); }
+    .btn-ghost:hover { border-color: var(--ink); }
+    .btn .arrow { transition: transform 0.4s var(--ease); }
+    .btn:hover .arrow { transform: translateX(4px); }
+
+    .hero-meta {
+      position: absolute; left: var(--gutter); bottom: 36px;
+      display: flex; gap: 28px;
+      font-size: 0.75rem; color: var(--ink-soft); letter-spacing: 0.08em;
+    }
+    .hero-meta b { color: var(--ink); font-weight: 500; }
+
+    .hero-media { position: relative; overflow: hidden; }
+    .hero-media img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 12%;
+      transform: scale(1.08);
+      animation: heroZoom 2.4s var(--ease) forwards;
+    }
+    @keyframes heroZoom { to { transform: scale(1); } }
+    .hero-badge {
+      position: absolute; right: 28px; bottom: 28px;
+      width: 132px; height: 132px;
+      animation: spin 28s linear infinite;
+      color: var(--paper);
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ---------- 마키 ---------- */
+    .marquee {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+      padding: 22px 0;
+      background: var(--paper);
+    }
+    .marquee-track {
+      display: flex; width: max-content;
+      animation: marquee 38s linear infinite;
+    }
+    .marquee-track span {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+      padding: 0 28px;
+      white-space: nowrap;
+    }
+    .marquee-track span.dot { color: var(--terracotta); font-style: normal; padding: 0; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ---------- 공통 섹션 ---------- */
+    section { position: relative; }
+    .wrap { padding: clamp(96px, 14vw, 180px) var(--gutter); }
+    .section-head {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: end;
+      margin-bottom: clamp(56px, 8vw, 100px);
+    }
+    .section-title {
+      font-family: var(--serif-en);
+      font-weight: 400;
+      font-size: clamp(2.8rem, 6.5vw, 5.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin: 18px 0 0;
+    }
+    .section-title em { font-style: italic; color: var(--terracotta); }
+    .section-lead {
+      font-family: var(--serif-ko);
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      max-width: 30em;
+      justify-self: end;
+      margin: 0;
+    }
+
+    /* ---------- 스토리 ---------- */
+    .story {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: clamp(40px, 7vw, 120px);
+      align-items: center;
+    }
+    .story-media { position: relative; }
+    .story > *, .room > *, .loc-grid > *, .section-head > *, .hero > * { min-width: 0; }
+    .story-media .frame { overflow: hidden; border-radius: 220px 220px 4px 4px; aspect-ratio: 3 / 4.2; }
+    .story-media img { width: 100%; height: 115%; object-fit: cover; object-position: center 60%; will-change: transform; }
+    .story-media .caption {
+      position: absolute; left: -18px; bottom: 40px;
+      writing-mode: vertical-rl; transform: rotate(180deg);
+      font-size: 0.7rem; letter-spacing: 0.3em; color: var(--ink-soft);
+    }
+    .story-quote {
+      font-family: var(--serif-ko);
+      font-weight: 300;
+      font-size: clamp(1.6rem, 3.2vw, 2.7rem);
+      line-height: 1.55;
+      letter-spacing: -0.03em;
+      margin: 24px 0 40px;
+    }
+    .story-quote .hl { color: var(--terracotta); font-weight: 400; }
+    .story-body { color: var(--ink-soft); max-width: 34em; margin: 0 0 56px; }
+    .facts {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+    }
+    .fact { padding: 28px 20px 0 0; }
+    .fact + .fact { padding-left: 20px; border-left: 1px solid var(--line); }
+    .fact-num { font-family: var(--serif-en); font-size: clamp(2.4rem, 4vw, 3.4rem); line-height: 1; }
+    .fact-label { font-size: 0.82rem; color: var(--ink-soft); margin-top: 10px; }
+
+    /* ---------- 객실 ---------- */
+    .rooms { background: var(--forest); color: var(--paper); }
+    .rooms .eyebrow { color: rgba(243, 238, 229, 0.6); }
+    .rooms .section-lead { color: rgba(243, 238, 229, 0.7); }
+    .rooms .section-title em { color: #e08a63; }
+    .room {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: clamp(32px, 6vw, 96px);
+      align-items: center;
+    }
+    .room + .room { margin-top: clamp(96px, 12vw, 160px); }
+    .room.reverse { grid-template-columns: 5fr 7fr; }
+    .room.reverse .room-media { order: 2; }
+    .room-media { position: relative; overflow: hidden; border-radius: 4px; aspect-ratio: 4 / 3; }
+    .room-media img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 1.4s var(--ease);
+    }
+    .room-media:hover img { transform: scale(1.04); }
+    .room-index {
+      font-family: var(--serif-en); font-style: italic;
+      font-size: 1.1rem; color: #e08a63;
+    }
+    .room-name {
+      display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+      margin: 10px 0 8px;
+    }
+    .room-name h3 {
+      font-family: var(--serif-en);
+      font-weight: 400;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1;
+      margin: 0;
+    }
+    .room-name .ko { font-family: var(--serif-ko); font-size: 1.15rem; opacity: 0.75; }
+    .room-origin { font-size: 0.85rem; opacity: 0.55; margin: 0 0 28px; font-style: italic; font-family: var(--serif-en); font-size: 1.05rem; }
+    .room-desc { opacity: 0.8; margin: 0 0 32px; max-width: 28em; }
+    .room-spec {
+      list-style: none; padding: 0; margin: 0 0 36px;
+      border-top: 1px solid rgba(243, 238, 229, 0.18);
+    }
+    .room-spec li {
+      display: flex; justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(243, 238, 229, 0.18);
+      font-size: 0.92rem;
+    }
+    .room-spec li span:first-child { opacity: 0.55; letter-spacing: 0.1em; font-size: 0.78rem; text-transform: uppercase; }
+    .btn-light { border: 1px solid rgba(243, 238, 229, 0.4); color: var(--paper); }
+    .btn-light:hover { background: var(--paper); color: var(--forest); }
+
+    /* ---------- 갤러리 ---------- */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: clamp(120px, 14vw, 200px);
+      gap: clamp(10px, 1.4vw, 18px);
+    }
+    .g { overflow: hidden; border-radius: 4px; position: relative; }
+    .g img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+    .g:hover img { transform: scale(1.05); }
+    .g1 { grid-column: 1 / 6; grid-row: span 3; }
+    .g2 { grid-column: 6 / 13; grid-row: span 2; }
+    .g3 { grid-column: 6 / 9; grid-row: span 2; }
+    .g4 { grid-column: 9 / 13; grid-row: span 2; }
+    .g5 { grid-column: 1 / 6; grid-row: span 1; }
+    .g-text {
+      background: var(--terracotta); color: var(--paper);
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: clamp(18px, 2.4vw, 32px);
+    }
+    .g-text p { margin: 0; font-family: var(--serif-en); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 2rem); line-height: 1.15; }
+    .g-text small { font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.8; }
+
+    /* ---------- 위치 ---------- */
+    .location { background: var(--paper-deep); }
+    .loc-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 7vw, 120px);
+    }
+    .loc-address {
+      font-family: var(--serif-ko);
+      font-weight: 300;
+      font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+      line-height: 1.5;
+      margin: 24px 0 36px;
+    }
+    .loc-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+    .loc-list li {
+      display: grid; grid-template-columns: 56px 1fr;
+      padding: 24px 0; border-bottom: 1px solid var(--line);
+    }
+    .loc-list .n { font-family: var(--serif-en); font-style: italic; color: var(--terracotta); font-size: 1.2rem; }
+    .loc-list h4 { margin: 0 0 4px; font-size: 1.02rem; font-weight: 600; }
+    .loc-list p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+    .map-card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--sea);
+      min-height: 420px;
+      display: flex; align-items: flex-end;
+      color: var(--paper);
+    }
+    .map-card svg.map-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .map-card .map-info {
+      position: relative;
+      padding: 32px;
+      width: 100%;
+      background: linear-gradient(to top, rgba(29, 36, 32, 0.55), transparent);
+    }
+    .map-card .pin {
+      position: absolute; left: 52%; top: 38%;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--terracotta);
+      box-shadow: 0 0 0 0 rgba(181, 83, 46, 0.7);
+      animation: pulse 2.2s infinite;
+    }
+    @keyframes pulse {
+      70% { box-shadow: 0 0 0 22px rgba(181, 83, 46, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(181, 83, 46, 0); }
+    }
+    .map-card .pin-label {
+      position: absolute; left: calc(52% + 28px); top: calc(38% - 6px);
+      font-family: var(--serif-en); font-style: italic; font-size: 1.3rem;
+    }
+
+    /* ---------- 예약 CTA ---------- */
+    .cta {
+      background: var(--terracotta);
+      color: var(--paper);
+      text-align: center;
+      overflow: hidden;
+    }
+    .cta .eyebrow { color: rgba(243, 238, 229, 0.75); }
+    .cta-title {
+      font-family: var(--serif-en);
+      font-weight: 400;
+      font-size: clamp(3.2rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      margin: 24px 0 28px;
+    }
+    .cta-title em { font-style: italic; }
+    .cta p { font-family: var(--serif-ko); font-weight: 300; margin: 0 auto 48px; max-width: 30em; opacity: 0.9; }
+    .cta-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-naver { background: var(--paper); color: var(--ink); }
+    .btn-naver .n-logo {
+      display: inline-grid; place-items: center;
+      width: 22px; height: 22px; border-radius: 4px;
+      background: var(--naver); color: #fff; font-weight: 800; font-size: 0.8rem;
+    }
+    .btn-naver:hover { box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.45); }
+    .btn-outline-light { border: 1px solid rgba(243, 238, 229, 0.55); color: var(--paper); }
+    .btn-outline-light:hover { background: rgba(243, 238, 229, 0.12); }
+
+    /* ---------- 푸터 ---------- */
+    .footer {
+      background: var(--ink); color: rgba(243, 238, 229, 0.65);
+      padding: 72px var(--gutter) 40px;
+      font-size: 0.85rem;
+    }
+    .footer-top {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap;
+      padding-bottom: 48px; border-bottom: 1px solid rgba(243, 238, 229, 0.12);
+    }
+    .footer .logo { color: var(--paper); font-size: 2rem; }
+    .footer-info { display: grid; grid-template-columns: auto 1fr; gap: 6px 24px; margin: 0; }
+    .footer-info dt { opacity: 0.5; }
+    .footer-info dd { margin: 0; color: var(--paper); }
+    .footer-bottom { padding-top: 28px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.78rem; opacity: 0.6; }
+
+    /* ---------- 모바일 하단 예약바 ---------- */
+    .mobile-bar { display: none; }
+
+    /* ---------- 스크롤 리빌 ---------- */
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: 0.12s; }
+    .reveal.d2 { transition-delay: 0.24s; }
+    .reveal.d3 { transition-delay: 0.36s; }
+
+    .hero-text > * { opacity: 0; transform: translateY(24px); animation: rise 1.2s var(--ease) forwards; }
+    .hero-text > *:nth-child(1) { animation-delay: 0.2s; }
+    .hero-text > *:nth-child(2) { animation-delay: 0.35s; }
+    .hero-text > *:nth-child(3) { animation-delay: 0.55s; }
+    .hero-text > *:nth-child(4) { animation-delay: 0.7s; }
+    .hero-text > *:nth-child(5) { animation-delay: 0.9s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal, .hero-text > * { opacity: 1; transform: none; }
+      .hero-media img { transform: none; }
+    }
+
+    /* ---------- 반응형 ---------- */
+    @media (max-width: 960px) {
+      .nav {
+        position: fixed; inset: 0;
+        flex-direction: column; justify-content: center; gap: 28px;
+        background: var(--paper);
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.4s var(--ease);
+      }
+      .nav a { font-size: 1rem; }
+      .header.open .nav { opacity: 1; pointer-events: auto; }
+      .menu-btn { display: block; position: relative; z-index: 2; }
+      .header.open .menu-btn span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+      .header.open .menu-btn span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); }
+      .logo { position: relative; z-index: 2; }
+
+      .hero { grid-template-columns: minmax(0, 1fr); }
+      .hero-media { order: -1; height: 62svh; min-height: 380px; }
+      .hero-text { padding: 48px var(--gutter) 64px; }
+      .hero-meta { position: static; margin-top: 48px; flex-wrap: wrap; gap: 14px 24px; }
+      .hero-badge { width: 104px; height: 104px; right: 18px; bottom: 18px; }
+      .header:not(.scrolled):not(.open) { color: var(--paper); }
+      .header:not(.scrolled):not(.open) .logo { text-shadow: 0 1px 12px rgba(0,0,0,0.25); }
+
+      .section-head { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+      .section-lead { justify-self: start; }
+      .story { grid-template-columns: minmax(0, 1fr); }
+      .story-media { max-width: 420px; }
+      .room, .room.reverse { grid-template-columns: minmax(0, 1fr); }
+      .room.reverse .room-media { order: 0; }
+      .loc-grid { grid-template-columns: minmax(0, 1fr); }
+      .map-card { min-height: 320px; }
+
+      .gallery { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 120px; }
+      .g1 { grid-column: 1 / 7; grid-row: span 3; }
+      .g2 { grid-column: 1 / 7; grid-row: span 2; }
+      .g3 { grid-column: 1 / 4; grid-row: span 2; }
+      .g4 { grid-column: 4 / 7; grid-row: span 2; }
+      .g5 { grid-column: 1 / 7; grid-row: span 1; }
+
+      .mobile-bar {
+        display: flex; gap: 8px;
+        position: fixed; left: 12px; right: 12px; bottom: 12px;
+        z-index: 90;
+        padding: 8px;
+        background: rgba(29, 36, 32, 0.92);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 999px;
+        transform: translateY(140%);
+        transition: transform 0.5s var(--ease);
+      }
+      .mobile-bar.show { transform: none; }
+      .mobile-bar a {
+        flex: 1; text-align: center; padding: 13px 10px; border-radius: 999px;
+        font-size: 0.9rem; font-weight: 500;
+      }
+      .mobile-bar .mb-call { color: var(--paper); flex: 0 0 34%; }
+      .mobile-bar .mb-book { background: var(--terracotta); color: var(--paper); }
+      .footer { padding-bottom: 110px; }
+    }
+    @media (max-width: 560px) {
+      .facts { grid-template-columns: 1fr 1fr 1fr; }
+      .fact { padding-right: 10px; }
+      .fact + .fact { padding-left: 12px; }
+      .fact-label { font-size: 0.74rem; }
+      .footer-info { grid-template-columns: 1fr; gap: 2px; }
+      .footer-info dd { margin-bottom: 10px; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">DRESDEN</div>
-    </header>
+  <!-- 헤더 -->
+  <header class="header" id="header">
+    <a href="#top" class="logo">DRESDEN</a>
+    <nav class="nav" id="nav">
+      <a href="#story">Story</a>
+      <a href="#rooms">Rooms</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#location">Location</a>
+      <a href="https://naver.me/IgM2Kegq" target="_blank" rel="noopener" class="nav-book">Reservation</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
 
+  <main id="top">
+
+    <!-- 히어로 -->
     <section class="hero">
-        <p>Classic & Family Stay</p>
-        <h1>드레스덴 펜션</h1>
-        <p>우리 가족이 머무는 예술 같은 휴식처</p>
-        <a href="https://naver.me/IgM2Kegq" target="_blank" class="btn-naver">네이버 실시간 예약하기</a>
+      <div class="hero-text">
+        <div class="eyebrow">Namhae German Village · Family Stay</div>
+        <h1 class="hero-title">Dres<em>den</em></h1>
+        <p class="hero-sub">남해 독일마을 언덕 위,<br>바다를 내려다보는 빨간 지붕의 작은 집.<br>가족과 함께 천천히 머무르세요.</p>
+        <div class="hero-actions">
+          <a href="https://naver.me/IgM2Kegq" target="_blank" rel="noopener" class="btn btn-primary">
+            실시간 예약하기 <span class="arrow">→</span>
+          </a>
+          <a href="#rooms" class="btn btn-ghost">객실 둘러보기</a>
+        </div>
+        <div class="hero-meta">
+          <span><b>2</b> Rooms</span>
+          <span><b>Ocean</b> View</span>
+          <span><b>Private</b> Terrace</span>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="main.jpg" alt="빨간 지붕과 나무 테라스가 있는 드레스덴 펜션 외관">
+        <svg class="hero-badge" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><path id="circle" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+          <text font-family="Cormorant Garamond, serif" font-size="12.5" letter-spacing="4" fill="currentColor">
+            <textPath href="#circle">DRESDEN · FAMILY STAY · NAMHAE ·</textPath>
+          </text>
+          <circle cx="60" cy="60" r="4" fill="currentColor"/>
+        </svg>
+      </div>
     </section>
 
-    <section class="section" id="rooms">
-        <h2>Our Rooms</h2>
-        <div class="underline"></div>
-        <div class="grid">
-            <div class="room-card">
-                <img src="room1.jpg" class="room-img">
-                <div class="room-info">
-                    <h3>젬퍼</h3>
-                    <p>거실 · 개별 테라스 (기준 2인/최대 4인)</p>
-                </div>
-            </div>
-            <div class="room-card">
-                <img src="room2.jpg" class="room-img">
-                <div class="room-info">
-                    <h3>엘베</h3>
-                    <p>거실 · 개별 테라스 (기준 4인/최대 5인)</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer>
-        <div style="margin-bottom: 20px;">
-            <strong>남해 독일마을 드레스덴 펜션</strong><br>
-            주소: 경남 남해군 삼동면 독일로 61-24 | 예약문의: 010-2135-1151 | 사업자번호: 712-17-02545
-        </div>
-        <p>© 2026 DRESDEN Pension</p>
-    </footer>
+    <!-- 마키 -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Slow mornings</span><span class="dot">✦</span>
+        <span>Sea breeze</span><span class="dot">✦</span>
+        <span>Red roofs</span><span class="dot">✦</span>
+        <span>Family time</span><span class="dot">✦</span>
+        <span>Namhae sunsets</span><span class="dot">✦</span>
+        <span>Slow mornings</span><span class="dot">✦</span>
+        <span>Sea breeze</span><span class="dot">✦</span>
+        <span>Red roofs</span><span class="dot">✦</span>
+        <span>Family time</span><span class="dot">✦</span>
+        <span>Namhae sunsets</span><span class="dot">✦</span>
+      </div>
+    </div>
 
+    <!-- 스토리 -->
+    <section class="wrap" id="story">
+      <div class="story">
+        <div class="story-media reveal">
+          <div class="frame"><img src="room1.jpg" alt="창 너머로 남해 바다가 보이는 거실" data-parallax></div>
+          <span class="caption">THE VIEW FROM SEMPER</span>
+        </div>
+        <div>
+          <div class="eyebrow reveal">01 — Our Story</div>
+          <p class="story-quote reveal d1">
+            커튼을 걷으면 <span class="hl">남해 바다</span>가<br>
+            거실 안으로 들어오는 집.
+          </p>
+          <p class="story-body reveal d2">
+            독일의 오래된 도시 드레스덴에서 이름을 빌려 왔습니다.
+            하얀 벽과 빨간 기와, 나무 테라스. 독일마을의 풍경을 닮은 이 집에서
+            아이는 마음껏 웃고, 어른은 오랜만에 느긋해집니다.
+            특별한 것을 하지 않아도 좋은 하루가 되도록, 꼭 필요한 것만 정성껏 준비했습니다.
+          </p>
+          <div class="facts reveal d3">
+            <div class="fact"><div class="fact-num">02</div><div class="fact-label">프라이빗 객실</div></div>
+            <div class="fact"><div class="fact-num">05</div><div class="fact-label">최대 수용 인원</div></div>
+            <div class="fact"><div class="fact-num">∞</div><div class="fact-label">바다 풍경</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 객실 -->
+    <section class="rooms wrap" id="rooms">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow reveal">02 — Rooms</div>
+          <h2 class="section-title reveal d1">Two rooms,<br><em>one view.</em></h2>
+        </div>
+        <p class="section-lead reveal d2">드레스덴을 대표하는 두 이름을 붙였습니다. 두 객실 모두 거실과 개별 테라스를 갖추고 있어, 바다를 바라보며 오롯이 우리 가족만의 시간을 보낼 수 있습니다.</p>
+      </div>
+
+      <article class="room">
+        <div class="room-media reveal"><img src="room1.jpg" alt="젬퍼 객실 거실"></div>
+        <div class="room-body">
+          <div class="room-index reveal">No. 01</div>
+          <div class="room-name reveal d1"><h3>Semper</h3><span class="ko">젬퍼</span></div>
+          <p class="room-origin reveal d1">after the Semperoper, Dresden</p>
+          <p class="room-desc reveal d2">다락처럼 기울어진 천장 아래, 커다란 창 가득 바다가 담기는 아늑한 객실. 둘이서, 혹은 아이와 함께 오붓하게 머물기 좋습니다.</p>
+          <ul class="room-spec reveal d2">
+            <li><span>Guests</span><span>기준 2인 · 최대 4인</span></li>
+            <li><span>Space</span><span>거실 · 개별 테라스</span></li>
+            <li><span>View</span><span>오션뷰</span></li>
+          </ul>
+          <a href="https://naver.me/IgM2Kegq" target="_blank" rel="noopener" class="btn btn-light reveal d3">젬퍼 예약하기 <span class="arrow">→</span></a>
+        </div>
+      </article>
+
+      <article class="room reverse">
+        <div class="room-media reveal"><img src="room2.jpg" alt="엘베 객실 침실과 테라스"></div>
+        <div class="room-body">
+          <div class="room-index reveal">No. 02</div>
+          <div class="room-name reveal d1"><h3>Elbe</h3><span class="ko">엘베</span></div>
+          <p class="room-origin reveal d1">after the River Elbe, Dresden</p>
+          <p class="room-desc reveal d2">두 방향으로 열린 창으로 바다와 숲이 함께 들어오는 넉넉한 객실. 온 가족이 함께 머물기에 여유롭습니다.</p>
+          <ul class="room-spec reveal d2">
+            <li><span>Guests</span><span>기준 4인 · 최대 5인</span></li>
+            <li><span>Space</span><span>거실 · 개별 테라스</span></li>
+            <li><span>View</span><span>오션뷰 · 포레스트뷰</span></li>
+          </ul>
+          <a href="https://naver.me/IgM2Kegq" target="_blank" rel="noopener" class="btn btn-light reveal d3">엘베 예약하기 <span class="arrow">→</span></a>
+        </div>
+      </article>
+    </section>
+
+    <!-- 갤러리 -->
+    <section class="wrap" id="gallery">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow reveal">03 — Moments</div>
+          <h2 class="section-title reveal d1">A day at<br><em>Dresden.</em></h2>
+        </div>
+        <p class="section-lead reveal d2">햇살이 바닥에 길게 눕는 오후, 테라스 너머로 번지는 노을. 드레스덴에서의 하루를 미리 만나보세요.</p>
+      </div>
+      <div class="gallery">
+        <div class="g g1 reveal"><img src="main.jpg" alt="드레스덴 외관" loading="lazy"></div>
+        <div class="g g2 reveal d1"><img src="room2.jpg" alt="엘베 객실" loading="lazy"></div>
+        <div class="g g3 reveal d2"><img src="room1.jpg" alt="젬퍼 객실" loading="lazy" style="object-position: center 40%"></div>
+        <div class="g g4 reveal d2"><img src="room2.jpg" alt="테라스 너머 바다" loading="lazy" style="object-position: 25% center"></div>
+        <div class="g g5 g-text reveal d3">
+          <small>Namhae, Korea</small>
+          <p>Wake up to the sea.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 위치 -->
+    <section class="location wrap" id="location">
+      <div class="loc-grid">
+        <div>
+          <div class="eyebrow reveal">04 — Location</div>
+          <h2 class="section-title reveal d1">Find <em>us.</em></h2>
+          <p class="loc-address reveal d2">경남 남해군 삼동면<br>독일로 61-24</p>
+          <ul class="loc-list reveal d3">
+            <li><span class="n">i.</span><div><h4>남해 독일마을</h4><p>이국적인 주황 지붕 마을 산책</p></div></li>
+            <li><span class="n">ii.</span><div><h4>원예예술촌</h4><p>정원과 꽃이 가득한 테마 마을</p></div></li>
+            <li><span class="n">iii.</span><div><h4>물건리 방조어부림</h4><p>바닷가를 따라 이어지는 숲길</p></div></li>
+          </ul>
+        </div>
+        <div class="map-card reveal d2">
+          <svg class="map-bg" viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="420" fill="#6f8a98"/>
+            <path d="M0,0 L400,0 L400,150 C350,170 330,120 290,140 C250,160 260,210 215,205 C170,200 160,150 120,165 C80,180 60,240 0,230 Z" fill="#2f3d33"/>
+            <path d="M0,0 L400,0 L400,110 C360,125 330,90 290,105 C250,120 255,160 215,160 C175,160 165,115 125,125 C85,135 55,190 0,180 Z" fill="#3c4c40"/>
+            <path d="M300,250 C330,235 370,250 365,280 C360,310 315,315 300,295 C288,280 285,260 300,250 Z" fill="#2f3d33" opacity="0.8"/>
+            <path d="M40,330 C60,320 90,325 88,345 C86,362 60,368 45,358 C33,350 30,336 40,330 Z" fill="#2f3d33" opacity="0.6"/>
+            <g stroke="#f3eee5" stroke-opacity="0.18" fill="none">
+              <path d="M0,260 C100,250 300,270 400,250"/>
+              <path d="M0,290 C120,280 280,300 400,280"/>
+              <path d="M0,320 C120,310 280,330 400,310"/>
+            </g>
+          </svg>
+          <span class="pin"></span>
+          <span class="pin-label">Dresden</span>
+          <div class="map-info">
+            <div class="eyebrow" style="color: rgba(243,238,229,0.75)">Namhae-gun, Gyeongnam</div>
+            <a href="https://map.naver.com/p/search/%EA%B2%BD%EB%82%A8%20%EB%82%A8%ED%95%B4%EA%B5%B0%20%EC%82%BC%EB%8F%99%EB%A9%B4%20%EB%8F%85%EC%9D%BC%EB%A1%9C%2061-24" target="_blank" rel="noopener" class="btn btn-outline-light" style="margin-top: 14px;">네이버 지도에서 보기 <span class="arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 예약 CTA -->
+    <section class="cta wrap" id="reserve">
+      <div class="eyebrow reveal">05 — Reservation</div>
+      <h2 class="cta-title reveal d1">See you<br>in <em>Namhae.</em></h2>
+      <p class="reveal d2">네이버 예약에서 빈 객실을 확인하고 바로 예약하세요.<br>궁금한 점은 언제든 편하게 연락 주세요.</p>
+      <div class="cta-actions reveal d3">
+        <a href="https://naver.me/IgM2Kegq" target="_blank" rel="noopener" class="btn btn-naver"><span class="n-logo">N</span> 네이버 실시간 예약</a>
+        <a href="tel:010-2135-1151" class="btn btn-outline-light">전화 문의 010-2135-1151</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <div class="logo">DRESDEN</div>
+        <p style="margin: 12px 0 0;">남해 독일마을 드레스덴 펜션</p>
+      </div>
+      <dl class="footer-info">
+        <dt>주소</dt><dd>경남 남해군 삼동면 독일로 61-24</dd>
+        <dt>예약문의</dt><dd><a href="tel:010-2135-1151">010-2135-1151</a></dd>
+        <dt>사업자번호</dt><dd>712-17-02545</dd>
+      </dl>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DRESDEN Pension. All rights reserved.</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- 모바일 하단 예약바 -->
+  <div class="mobile-bar" id="mobileBar">
+    <a href="tel:010-2135-1151" class="mb-call">전화하기</a>
+    <a href="https://naver.me/IgM2Kegq" target="_blank" rel="noopener" class="mb-book">실시간 예약</a>
+  </div>
+
+  <script>
+    (function () {
+      var header = document.getElementById('header');
+      var menuBtn = document.getElementById('menuBtn');
+      var mobileBar = document.getElementById('mobileBar');
+
+      // 스크롤 시 헤더 / 모바일 예약바
+      function onScroll() {
+        var y = window.scrollY;
+        header.classList.toggle('scrolled', y > 40);
+        mobileBar.classList.toggle('show', y > window.innerHeight * 0.6);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // 모바일 메뉴
+      menuBtn.addEventListener('click', function () {
+        var open = header.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      document.querySelectorAll('#nav a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          header.classList.remove('open');
+          menuBtn.setAttribute('aria-expanded', false);
+          document.body.style.overflow = '';
+        });
+      });
+
+      // 스크롤 리빌
+      var reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach(function (el) { io.observe(el); });
+      } else {
+        reveals.forEach(function (el) { el.classList.add('in'); });
+      }
+
+      // 이미지 패럴랙스
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var px = document.querySelectorAll('[data-parallax]');
+      if (!reduce && px.length) {
+        var ticking = false;
+        function parallax() {
+          px.forEach(function (img) {
+            var r = img.parentElement.getBoundingClientRect();
+            var p = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+            img.style.transform = 'translateY(' + (p * -8 - 6) + '%)';
+          });
+          ticking = false;
+        }
+        window.addEventListener('scroll', function () {
+          if (!ticking) { requestAnimationFrame(parallax); ticking = true; }
+        }, { passive: true });
+        parallax();
+      }
+    })();
+  </script>
 </body>
 </html>
