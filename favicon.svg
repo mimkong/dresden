@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 흰 벽 -->
+  <path d="M32 16 L52 35 V60 H12 V35 Z" fill="#ffffff" stroke="#5b3a27" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- 둥근 환기구 -->
+  <circle cx="32" cy="31" r="3.6" fill="none" stroke="#5b3a27" stroke-width="2"/>
+  <!-- 현관 차양 -->
+  <rect x="23" y="40" width="18" height="4.5" rx="1.2" fill="#e5672e"/>
+  <!-- 나무 문 -->
+  <rect x="27" y="44.5" width="10" height="15.5" fill="#5b3a27"/>
+  <!-- 주황 지붕 -->
+  <path d="M32 2 L63 36 H52.5 L32 14.5 L11.5 36 H1 Z" fill="#e5672e" stroke="#c4511f" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

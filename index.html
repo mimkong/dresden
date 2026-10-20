@@ -9,6 +9,9 @@
   <meta property="og:description" content="바다를 내려다보는 빨간 지붕의 작은 집">
   <meta property="og:image" content="main.jpg">
   <meta name="theme-color" content="#f3eee5">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -284,13 +287,34 @@
     }
     .room + .room { margin-top: clamp(96px, 12vw, 160px); }
     .room.reverse { grid-template-columns: 5fr 7fr; }
-    .room.reverse .room-media { order: 2; }
-    .room-media { position: relative; overflow: hidden; border-radius: 4px; aspect-ratio: 4 / 3; }
+    .room.reverse .room-gallery { order: 2; }
+    .room-media { position: relative; overflow: hidden; border-radius: 4px; aspect-ratio: 3 / 2; background: rgba(0, 0, 0, 0.15); }
     .room-media img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 1.4s var(--ease);
+      transition: transform 1.4s var(--ease), opacity 0.45s ease;
     }
+    .room-media img.fading { opacity: 0; }
     .room-media:hover img { transform: scale(1.04); }
+    .room-media .count {
+      position: absolute; right: 14px; bottom: 12px;
+      font-family: var(--serif-en); font-style: italic; font-size: 1rem;
+      color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+    }
+    .room-thumbs {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: clamp(8px, 1vw, 12px);
+      margin-top: clamp(8px, 1vw, 12px);
+    }
+    .thumb {
+      padding: 0; border: 0; background: none; cursor: pointer;
+      aspect-ratio: 3 / 2; border-radius: 3px; overflow: hidden;
+      opacity: 0.45; outline: 1px solid transparent; outline-offset: 2px;
+      transition: opacity 0.3s, outline-color 0.3s;
+    }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb:hover { opacity: 0.8; }
+    .thumb.active { opacity: 1; outline-color: rgba(243, 238, 229, 0.7); }
+    .thumb:focus-visible { outline-color: #e08a63; }
     .room-index {
       font-family: var(--serif-en); font-style: italic;
       font-size: 1.1rem; color: #e08a63;
@@ -333,11 +357,20 @@
     .g { overflow: hidden; border-radius: 4px; position: relative; }
     .g img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
     .g:hover img { transform: scale(1.05); }
-    .g1 { grid-column: 1 / 6; grid-row: span 3; }
-    .g2 { grid-column: 6 / 13; grid-row: span 2; }
-    .g3 { grid-column: 6 / 9; grid-row: span 2; }
-    .g4 { grid-column: 9 / 13; grid-row: span 2; }
-    .g5 { grid-column: 1 / 6; grid-row: span 1; }
+    .g figcaption {
+      position: absolute; left: 16px; bottom: 12px;
+      font-family: var(--serif-en); font-style: italic; font-size: 1.05rem;
+      color: #fff; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    }
+    .g:hover figcaption { opacity: 1; transform: none; }
+    .g { margin: 0; }
+    .g1 { grid-column: 1 / 8; grid-row: span 3; }
+    .g2 { grid-column: 8 / 13; grid-row: span 3; }
+    .g3 { grid-column: 1 / 6; grid-row: span 2; }
+    .g4 { grid-column: 6 / 10; grid-row: span 2; }
+    .g5 { grid-column: 10 / 13; grid-row: span 2; }
     .g-text {
       background: var(--terracotta); color: var(--paper);
       display: flex; flex-direction: column; justify-content: space-between;
@@ -497,16 +530,17 @@
       .story { grid-template-columns: minmax(0, 1fr); }
       .story-media { max-width: 420px; }
       .room, .room.reverse { grid-template-columns: minmax(0, 1fr); }
-      .room.reverse .room-media { order: 0; }
+      .room.reverse .room-gallery { order: 0; }
       .loc-grid { grid-template-columns: minmax(0, 1fr); }
       .map-card { min-height: 320px; }
 
       .gallery { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 120px; }
-      .g1 { grid-column: 1 / 7; grid-row: span 3; }
-      .g2 { grid-column: 1 / 7; grid-row: span 2; }
+      .g1 { grid-column: 1 / 7; grid-row: span 2; }
+      .g2 { grid-column: 1 / 7; grid-row: span 4; }
       .g3 { grid-column: 1 / 4; grid-row: span 2; }
       .g4 { grid-column: 4 / 7; grid-row: span 2; }
       .g5 { grid-column: 1 / 7; grid-row: span 1; }
+      .g figcaption { opacity: 1; transform: none; font-size: 0.95rem; }
 
       .mobile-bar {
         display: flex; gap: 8px;
@@ -608,7 +642,7 @@
     <section class="wrap" id="story">
       <div class="story">
         <div class="story-media reveal">
-          <div class="frame"><img src="room1.jpg" alt="창 너머로 남해 바다가 보이는 거실" data-parallax></div>
+          <div class="frame"><img src="images/semper-living.webp" alt="창 너머로 남해 바다가 보이는 젬퍼 거실" data-parallax style="object-position: 46% center"></div>
           <span class="caption">THE VIEW FROM SEMPER</span>
         </div>
         <div>
@@ -637,21 +671,29 @@
       <div class="section-head">
         <div>
           <div class="eyebrow reveal">02 — Rooms</div>
-          <h2 class="section-title reveal d1">Two rooms,<br><em>one view.</em></h2>
+          <h2 class="section-title reveal d1">Two rooms,<br><em>one home.</em></h2>
         </div>
-        <p class="section-lead reveal d2">드레스덴을 대표하는 두 이름을 붙였습니다. 두 객실 모두 거실과 개별 테라스를 갖추고 있어, 바다를 바라보며 오롯이 우리 가족만의 시간을 보낼 수 있습니다.</p>
+        <p class="section-lead reveal d2">드레스덴을 대표하는 두 이름을 붙였습니다. 두 객실 모두 거실과 개별 테라스를 갖추고 있어, 오롯이 우리 가족만의 시간을 보낼 수 있습니다.</p>
       </div>
 
       <article class="room">
-        <div class="room-media reveal"><img src="room1.jpg" alt="젬퍼 객실 거실"></div>
+        <div class="room-gallery reveal" data-room-gallery>
+          <div class="room-media"><img src="images/semper-living.webp" alt="바다가 보이는 젬퍼 거실"><span class="count">1 / 4</span></div>
+          <div class="room-thumbs">
+            <button class="thumb active" type="button" aria-label="거실 사진 보기"><img src="images/semper-living.webp" alt="바다가 보이는 젬퍼 거실" loading="lazy"></button>
+            <button class="thumb" type="button" aria-label="침실 사진 보기"><img src="images/semper-bedroom.webp" alt="창밖으로 바다가 보이는 젬퍼 침실" loading="lazy"></button>
+            <button class="thumb" type="button" aria-label="침실 다른 각도 사진 보기"><img src="images/semper-bedroom-2.jpg" alt="화장대가 있는 젬퍼 침실" loading="lazy"></button>
+            <button class="thumb" type="button" aria-label="테라스 사진 보기"><img src="images/semper-terrace.jpg" alt="독일마을과 바다가 내려다보이는 젬퍼 테라스" loading="lazy"></button>
+          </div>
+        </div>
         <div class="room-body">
           <div class="room-index reveal">No. 01</div>
           <div class="room-name reveal d1"><h3>Semper</h3><span class="ko">젬퍼</span></div>
           <p class="room-origin reveal d1">after the Semperoper, Dresden</p>
-          <p class="room-desc reveal d2">다락처럼 기울어진 천장 아래, 커다란 창 가득 바다가 담기는 아늑한 객실. 둘이서, 혹은 아이와 함께 오붓하게 머물기 좋습니다.</p>
+          <p class="room-desc reveal d2">다락처럼 기울어진 천장 아래, 커다란 창 가득 바다가 담기는 아늑한 객실. 침실 창과 테라스에서도 독일마을 너머 바다가 내려다보입니다.</p>
           <ul class="room-spec reveal d2">
             <li><span>Guests</span><span>기준 2인 · 최대 4인</span></li>
-            <li><span>Space</span><span>거실 · 개별 테라스</span></li>
+            <li><span>Space</span><span>거실 · 침실 · 개별 테라스</span></li>
             <li><span>View</span><span>오션뷰</span></li>
           </ul>
           <a href="https://naver.me/IgM2Kegq" target="_blank" rel="noopener" class="btn btn-light reveal d3">젬퍼 예약하기 <span class="arrow">→</span></a>
@@ -659,16 +701,23 @@
       </article>
 
       <article class="room reverse">
-        <div class="room-media reveal"><img src="room2.jpg" alt="엘베 객실 침실과 테라스"></div>
+        <div class="room-gallery reveal" data-room-gallery>
+          <div class="room-media"><img src="images/elbe-living.webp" alt="테라스로 이어지는 엘베 거실"><span class="count">1 / 3</span></div>
+          <div class="room-thumbs">
+            <button class="thumb active" type="button" aria-label="거실 사진 보기"><img src="images/elbe-living.webp" alt="테라스로 이어지는 엘베 거실" loading="lazy"></button>
+            <button class="thumb" type="button" aria-label="주방 사진 보기"><img src="images/elbe-kitchen.jpg" alt="엘베 주방과 식탁" loading="lazy"></button>
+            <button class="thumb" type="button" aria-label="아치 테라스 사진 보기"><img src="images/elbe-terrace-arch.jpg" alt="아치가 있는 엘베 테라스" loading="lazy"></button>
+          </div>
+        </div>
         <div class="room-body">
           <div class="room-index reveal">No. 02</div>
           <div class="room-name reveal d1"><h3>Elbe</h3><span class="ko">엘베</span></div>
           <p class="room-origin reveal d1">after the River Elbe, Dresden</p>
-          <p class="room-desc reveal d2">두 방향으로 열린 창으로 바다와 숲이 함께 들어오는 넉넉한 객실. 온 가족이 함께 머물기에 여유롭습니다.</p>
+          <p class="room-desc reveal d2">두 방향으로 창이 난 환한 거실과 따로 마련된 주방, 아치 기둥이 있는 넓은 테라스까지. 온 가족이 함께 머물기에 여유로운 객실입니다.</p>
           <ul class="room-spec reveal d2">
             <li><span>Guests</span><span>기준 4인 · 최대 5인</span></li>
-            <li><span>Space</span><span>거실 · 개별 테라스</span></li>
-            <li><span>View</span><span>오션뷰 · 포레스트뷰</span></li>
+            <li><span>Space</span><span>거실 · 주방 · 아치 테라스</span></li>
+            <li><span>View</span><span>독일마을 · 숲</span></li>
           </ul>
           <a href="https://naver.me/IgM2Kegq" target="_blank" rel="noopener" class="btn btn-light reveal d3">엘베 예약하기 <span class="arrow">→</span></a>
         </div>
@@ -685,10 +734,10 @@
         <p class="section-lead reveal d2">햇살이 바닥에 길게 눕는 오후, 테라스 너머로 번지는 노을. 드레스덴에서의 하루를 미리 만나보세요.</p>
       </div>
       <div class="gallery">
-        <div class="g g1 reveal"><img src="main.jpg" alt="드레스덴 외관" loading="lazy"></div>
-        <div class="g g2 reveal d1"><img src="room2.jpg" alt="엘베 객실" loading="lazy"></div>
-        <div class="g g3 reveal d2"><img src="room1.jpg" alt="젬퍼 객실" loading="lazy" style="object-position: center 40%"></div>
-        <div class="g g4 reveal d2"><img src="room2.jpg" alt="테라스 너머 바다" loading="lazy" style="object-position: 25% center"></div>
+        <figure class="g g1 reveal"><img src="images/exterior.jpg" alt="빨간 지붕의 드레스덴 외관과 젬퍼 입구" loading="lazy" style="object-position: center 30%"><figcaption>Entrance · Semper</figcaption></figure>
+        <figure class="g g2 reveal d1"><img src="images/elbe-terrace-arch.jpg" alt="아치 너머로 독일마을이 보이는 테라스" loading="lazy" style="object-position: 60% center"><figcaption>Terrace · Elbe</figcaption></figure>
+        <figure class="g g3 reveal d2"><img src="images/semper-terrace.jpg" alt="젬퍼 테라스에서 내려다본 마을과 바다" loading="lazy"><figcaption>Terrace · Semper</figcaption></figure>
+        <figure class="g g4 reveal d2"><img src="images/semper-bedroom.webp" alt="창밖으로 바다가 보이는 침실" loading="lazy"><figcaption>Bedroom · Semper</figcaption></figure>
         <div class="g g5 g-text reveal d3">
           <small>Namhae, Korea</small>
           <p>Wake up to the sea.</p>
@@ -796,6 +845,28 @@
           header.classList.remove('open');
           menuBtn.setAttribute('aria-expanded', false);
           document.body.style.overflow = '';
+        });
+      });
+
+      // 객실 사진 전환
+      document.querySelectorAll('[data-room-gallery]').forEach(function (gallery) {
+        var main = gallery.querySelector('.room-media img');
+        var count = gallery.querySelector('.room-media .count');
+        var thumbs = gallery.querySelectorAll('.thumb');
+        thumbs.forEach(function (thumb, i) {
+          thumb.addEventListener('click', function () {
+            if (thumb.classList.contains('active')) return;
+            var img = thumb.querySelector('img');
+            thumbs.forEach(function (t) { t.classList.remove('active'); });
+            thumb.classList.add('active');
+            count.textContent = (i + 1) + ' / ' + thumbs.length;
+            main.classList.add('fading');
+            setTimeout(function () {
+              main.src = img.src;
+              main.alt = img.alt;
+              main.classList.remove('fading');
+            }, 250);
+          });
         });
       });
 
